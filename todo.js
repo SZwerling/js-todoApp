@@ -1,18 +1,27 @@
-const todos = [
-   { text: "Todo number one.", completed: false },
-   { text: "Todo number two", completed: true },
-   { text: "Todo number three", completed: false },
-];
+let todos = [];
 
 const filters = {
    searchText: "",
+   hideCompleted: false,
 };
 
+const todosJson = localStorage.getItem("todos");
+if (todosJson !== null) {
+   todos = JSON.parse(todosJson);
+}
+
 const rendertodos = (todosObj, filtersObj) => {
-   const filteredTodos = todosObj.filter((todo) => {
+   let filteredTodos = todosObj.filter((todo) => {
       return todo.text
          .toLowerCase()
          .includes(filtersObj.searchText.toLowerCase());
+   });
+
+   // Filter is based on true or false for each todo.
+   // On a given todo if hideCompleted is note true OR todo completed is not true.
+   // Either all the todos if hideCompleted is false or just todos not completed.
+   filteredTodos = filteredTodos.filter((todo) => {
+      return !filters.hideCompleted || !todo.completed;
    });
 
    const incompleteTodos = filteredTodos.filter((todo) => !todo.completed);
@@ -41,6 +50,13 @@ document.querySelector("#filter-todos").addEventListener("input", (e) => {
 document.querySelector("#add-todo").addEventListener("submit", (e) => {
    e.preventDefault();
    todos.push({ text: e.target.elements.newTodo.value, completed: false });
+   localStorage.setItem("todos", JSON.stringify(todos));
    e.target.elements.newTodo.value = "";
+   rendertodos(todos, filters);
+});
+
+//event listener for hide completed todos
+document.querySelector("#hide-completed").addEventListener("change", (e) => {
+   filters.hideCompleted = e.target.checked;
    rendertodos(todos, filters);
 });
