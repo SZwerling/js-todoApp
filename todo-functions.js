@@ -21,6 +21,8 @@ const rendertodos = (todosObj, filtersObj) => {
           .toLowerCase()
           .includes(filtersObj.searchText.toLowerCase());
     });
+
+   
  
     // Filter is based on true or false for each todo.
     // On a given todo if hideCompleted is note true OR todo completed is not true.
@@ -28,6 +30,7 @@ const rendertodos = (todosObj, filtersObj) => {
     filteredTodos = filteredTodos.filter((todo) => {
        return !filters.hideCompleted || !todo.completed;
     });
+
  
     const incompleteTodos = filteredTodos.filter((todo) => !todo.completed);
  
@@ -42,10 +45,22 @@ const rendertodos = (todosObj, filtersObj) => {
 
 
  // generate dom element for each todo
+ // checkbox before and remove button after
 const generateTodoDOM = (todo) => {
-    const todoEl = document.createElement("p");
+    const rootDiv = document.createElement("div")
+    const checkbox = document.createElement("input")
+    const button = document.createElement("button")
+    const todoEl = document.createElement("span");
+    
+    checkbox.setAttribute("type", "checkbox")
+    button.textContent = 'x'
     todoEl.textContent = todo.text;
-    return todoEl
+
+    rootDiv.appendChild(checkbox)
+    rootDiv.appendChild(todoEl)
+    rootDiv.appendChild(button)
+    
+    return rootDiv
 }
 
 const generateSummaryDOM = (incompleteTodos) => {
