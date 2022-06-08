@@ -13,6 +13,16 @@ const saveTodos = (todos) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 }
 
+// remove todo by id
+const removeTodo = (id) => {
+   let index = todos.findIndex((todo) => {
+      return todo.id === id
+   })
+   if(index > -1){  //if statement not really necessary// button created with todo with id so id must exist
+      todos.splice(index, 1)
+   }
+}
+
 
 // render todos based on filters
 const rendertodos = (todosObj, filtersObj) => {
@@ -22,7 +32,6 @@ const rendertodos = (todosObj, filtersObj) => {
           .includes(filtersObj.searchText.toLowerCase());
     });
 
-   
  
     // Filter is based on true or false for each todo.
     // On a given todo if hideCompleted is note true OR todo completed is not true.
@@ -55,6 +64,12 @@ const generateTodoDOM = (todo) => {
     checkbox.setAttribute("type", "checkbox")
     button.textContent = 'x'
     todoEl.textContent = todo.text;
+
+    button.addEventListener('click', () => {
+       removeTodo(todo.id)
+       saveTodos(todos)
+       rendertodos(todos, filters)
+    })
 
     rootDiv.appendChild(checkbox)
     rootDiv.appendChild(todoEl)
