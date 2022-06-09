@@ -62,6 +62,8 @@ const generateTodoDOM = (todo) => {
     const todoEl = document.createElement("span");
     
     checkbox.setAttribute("type", "checkbox")
+    checkbox.checked = todo.completed
+    
     button.textContent = 'x'
     todoEl.textContent = todo.text;
 
