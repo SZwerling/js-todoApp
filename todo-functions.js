@@ -67,6 +67,12 @@ const generateTodoDOM = (todo) => {
     button.textContent = 'x'
     todoEl.textContent = todo.text;
 
+    checkbox.addEventListener('change', () => { //toggle completed checkbox, save and rerender.
+       todo.completed = !todo.completed;
+       saveTodos(todos);
+       rendertodos(todos, filters)
+    })
+
     button.addEventListener('click', () => {
        removeTodo(todo.id)
        saveTodos(todos)
