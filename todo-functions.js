@@ -15,9 +15,7 @@ const saveTodos = (todos) => {
 
 // remove todo by id
 const removeTodo = (id) => {
-   let index = todos.findIndex((todo) => {
-      return todo.id === id
-   })
+   let index = todos.findIndex((todo) => todo.id === id)
    if(index > -1){  //if statement not really necessary// button created with todo with id so id must exist
       todos.splice(index, 1)
    }
@@ -36,9 +34,7 @@ const rendertodos = (todosObj, filtersObj) => {
     // Filter is based on true or false for each todo.
     // On a given todo if hideCompleted is note true OR todo completed is not true.
     // Either all the todos if hideCompleted is false or just todos not completed.
-    filteredTodos = filteredTodos.filter((todo) => {
-       return !filters.hideCompleted || !todo.completed;
-    });
+    filteredTodos = filteredTodos.filter((todo) => !filters.hideCompleted || !todo.completed);
 
  
     const incompleteTodos = filteredTodos.filter((todo) => !todo.completed);
