@@ -1,7 +1,7 @@
 // get saved todos from local storage
 const getSavedTodos = () => {
    const todosJson = localStorage.getItem("todos");
-   return todosJson !== null ? JSON.parse(todosJson) : []
+   return todosJson ? JSON.parse(todosJson) : []
 };
 
 // save todos to local storage
