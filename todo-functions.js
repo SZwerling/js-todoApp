@@ -1,7 +1,13 @@
 // get saved todos from local storage
 const getSavedTodos = () => {
    const todosJson = localStorage.getItem("todos");
-   return todosJson ? JSON.parse(todosJson) : []
+// try/catch allows program to keep going if not JSON data or some error
+   try {
+      return todosJson ? JSON.parse(todosJson) : []
+   } catch(e) {
+      return []
+   }
+   
 };
 
 // save todos to local storage
