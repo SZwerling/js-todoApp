@@ -26,6 +26,7 @@ const removeTodo = (id) => {
    }
 };
 
+
 // render todos based on filters
 const rendertodos = (todosObj, filtersObj) => {
    let filteredTodos = todosObj.filter((todo) =>
@@ -41,16 +42,25 @@ const rendertodos = (todosObj, filtersObj) => {
 
    const incompleteTodos = filteredTodos.filter((todo) => !todo.completed);
 
-   document.querySelector("#todos").innerHTML = ""; //clear todos
-   document
-      .querySelector("#todos")
-      .appendChild(generateSummaryDOM(incompleteTodos));
+   const divWithIdTodos = document.querySelector("#todos"); // because we locate this div four times in this function
 
-   filteredTodos.forEach((todo) => {
-      const todoEl = generateTodoDOM(todo);
-      document.querySelector("#todos").appendChild(todoEl);
-   });
+   divWithIdTodos.innerHTML = ""; //clear todos
+   divWithIdTodos.appendChild(generateSummaryDOM(incompleteTodos));
+
+   if(filteredTodos.length > 0){
+      filteredTodos.forEach((todo) => {
+         divWithIdTodos.appendChild(generateTodoDOM(todo));
+      });
+   } else {
+      const emptyMessage = document.createElement("p")
+      emptyMessage.classList.add("empty-message")
+      emptyMessage.textContent = "No to-dos to show"
+      divWithIdTodos.appendChild(emptyMessage)
+   }
+
+   
 };
+
 
 // generate dom element for each todo
 // checkbox before and remove button after
@@ -104,12 +114,13 @@ const generateTodoDOM = (todo) => {
    return rootDiv;
 };
 
+
 //Todos left to do message
 const generateSummaryDOM = (incompleteTodos) => {
    const todoMessage = document.createElement("h2");
    todoMessage.classList.add("list-title")
    const things = incompleteTodos.length === 1 ? "thing" : "things" 
-   todoMessage.textContent = `You have ${incompleteTodos.length} ${things} left to do.`;
+   todoMessage.textContent = `You have ${incompleteTodos.length} ${things} left to do`;
    
    return todoMessage;
 };
