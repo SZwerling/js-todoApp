@@ -107,6 +107,9 @@ const generateTodoDOM = (todo) => {
 //Todos left to do message
 const generateSummaryDOM = (incompleteTodos) => {
    const todoMessage = document.createElement("h2");
-   todoMessage.textContent = `You have ${incompleteTodos.length} thing(s) left to do.`;
+   todoMessage.classList.add("list-title")
+   const things = incompleteTodos.length === 1 ? "thing" : "things" 
+   todoMessage.textContent = `You have ${incompleteTodos.length} ${things} left to do.`;
+   
    return todoMessage;
 };
