@@ -54,18 +54,26 @@ const rendertodos = (todosObj, filtersObj) => {
 
 // generate dom element for each todo
 // checkbox before and remove button after
+// attached to div in html with id "todos" after summary message
+// this dom structure gets rendered as:
+      {/*   <label class="list-item">                //rootDiv
+               <div class="list-item__container">    //containerEl
+                  <input type="checkbox">            //checkbox
+                     <span>one</span>                //todoEl
+               </div>
+               <button class="button button--text">remove</button>  //button
+            </label> */}
 const generateTodoDOM = (todo) => {
-   const rootDiv = document.createElement("div");
+   const rootDiv = document.createElement("label");
+   const containerEl = document.createElement("div")
    const checkbox = document.createElement("input");
    const button = document.createElement("button");
    const todoEl = document.createElement("span");
 
+   //set up todo checkbox
    checkbox.setAttribute("type", "checkbox");
    checkbox.checked = todo.completed;
-
-   button.textContent = "x";
-   todoEl.textContent = todo.text;
-
+   containerEl.appendChild(checkbox);
    checkbox.addEventListener("change", () => {
       //toggle completed checkbox, save and rerender.
       todo.completed = !todo.completed;
@@ -73,19 +81,30 @@ const generateTodoDOM = (todo) => {
       rendertodos(todos, filters);
    });
 
+   //set up todo text
+   todoEl.textContent = todo.text;
+   containerEl.appendChild(todoEl)
+
+   //container
+   rootDiv.classList.add("list-item")
+   containerEl.classList.add("list-item__container")
+   rootDiv.appendChild(containerEl)
+   
+   //set up remove button
+   button.textContent = "remove";
+   button.classList.add("button", "button--text")
+   rootDiv.appendChild(button);
+
    button.addEventListener("click", () => {
       removeTodo(todo.id);
       saveTodos(todos);
       rendertodos(todos, filters);
    });
-
-   rootDiv.appendChild(checkbox);
-   rootDiv.appendChild(todoEl);
-   rootDiv.appendChild(button);
-
+   
    return rootDiv;
 };
 
+//Todos left to do message
 const generateSummaryDOM = (incompleteTodos) => {
    const todoMessage = document.createElement("h2");
    todoMessage.textContent = `You have ${incompleteTodos.length} thing(s) left to do.`;
